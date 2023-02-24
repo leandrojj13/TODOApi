@@ -38,6 +38,8 @@ namespace TodoApi.Services
                     VolumeMWh = s.VolumeMWh
                 }).ToList();
 
+                result.Success = true;
+
                 result.Result = settlementsDto;
 
             }

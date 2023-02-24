@@ -36,7 +36,7 @@ namespace TodoApi.Models
         {
             var settlements = new List<Settlement>();
 
-            var fileName = "../resources/DataResults.xlsx";
+            var fileName = "./resources/DataResults.xlsx";
 
             //https://stackoverflow.com/questions/50858209/system-notsupportedexception-no-data-is-available-for-encoding-1252
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
