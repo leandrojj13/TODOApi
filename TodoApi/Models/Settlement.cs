@@ -19,4 +19,11 @@ namespace TodoApi.Models
 
         public DateTime? ModifiedDate { get; set; }
     }
+
+    public class SettlementGroupByYear
+    {
+        public string SettlementLocationName { get; set; }
+
+        public int Year { get; set; }
+    }
 }

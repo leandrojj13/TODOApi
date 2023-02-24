@@ -20,8 +20,8 @@ namespace TodoApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //webBuilder.UseStartup<Startup>();
-                    webBuilder.UseStartup<StartupJavaScript>();
+                    webBuilder.UseStartup<Startup>();
+                   // webBuilder.UseStartup<StartupJavaScript>();
                 });
     }
 }

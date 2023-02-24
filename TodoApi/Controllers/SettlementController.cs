@@ -1,28 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using TodoApi.Models;
+using TodoApi.Domain;
+using TodoApi.Services;
 
 namespace TodoApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class SettlementController : ControllerBase
     {
-        private readonly TodoContext _todoContext;
+        private readonly ISettlementService _settlementService;
 
-        public SettlementController(TodoContext todoContext)
+        public SettlementController(ISettlementService settlementService)
         {
-            _todoContext = todoContext;
+            _settlementService = settlementService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("api/ret_settlement_dates")]
+        public IActionResult GetSettlementByDates([FromQuery] SettlementQuery query)
         {
-            _todoContext.Database.EnsureCreated();
+            var result = _settlementService.GetSettlementByDates(query);
 
-            var settlements = _todoContext.Settlements.ToList();
+            if (!result.Success) return BadRequest(result);
 
-            return Ok(settlements);
+            return Ok(result);
+        }
+
+        [HttpGet("api/agg_monthly")]
+        public IActionResult GetSettlementAggMonthly([FromQuery] string settlementLocationName)
+        {
+            var result = _settlementService.GroupByYear(settlementLocationName);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
         }
     }
 }
