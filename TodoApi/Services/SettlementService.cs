@@ -18,37 +18,35 @@ namespace TodoApi.Services
 
         public ServiceResult<IEnumerable<SettlementDto>> GetSettlementByDates(SettlementQuery query)
         {
+            var result = new ServiceResult<IEnumerable<SettlementDto>>();
+
             if (DateTime.TryParse(query.StartDate, out DateTime startDate) && DateTime.TryParse(query.EndDate, out DateTime endDate))
             {
                 var settlements = _settlementRepository.GetSettlementByDates(startDate, endDate, query.SettlementLocationID);
 
                 if (!settlements.Any())
                 {
-                    return new ServiceResult<IEnumerable<SettlementDto>>()
-                    {
-                        Success = false,
-                        Message = "Dates Not Found"
-                    };
+                    result.Messages.Add("Dates Not Found");
+
+                    return result;
                 }
 
-                var result = settlements.Select(s => new SettlementDto {
+                var settlementsDto = settlements.Select(s => new SettlementDto {
                     SettlementLocationName = s.SettlementLocationName,
                     DateOfService = s.DateOfService,
                     PricePerMWh = s.PricePerMWh,
                     VolumeMWh = s.VolumeMWh
                 }).ToList();
 
-                return new ServiceResult<IEnumerable<SettlementDto>>() {
-                    Success = true,
-                    Result = result
-                };
+                result.Result = settlementsDto;
+
+            }
+            else
+            {
+                result.Messages.Add("Please provide valid dates. Format Allowed: YYYY-MM-DDDD ex: 2023-02-24");
             }
 
-            return new ServiceResult<IEnumerable<SettlementDto>>()
-            {
-                Success = false,
-                Message = "Please provide valid dates. Format Allowed: YYYY-MM-DDDD ex: 2023-02-24"
-            };
+            return result;
         }
 
         public ServiceResult<IEnumerable<SettlementGroupByYearDto>> GroupByYear(string settlementLocationName)

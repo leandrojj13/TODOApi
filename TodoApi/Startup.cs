@@ -25,8 +25,14 @@ namespace TodoApi
         {
             services.AddControllers();
 
+            services.AddSwaggerGen();
+
             services.AddDbContext<TodoContext>(opt =>
                 opt.UseInMemoryDatabase("TodoList"));
+
+            services.AddTransient<ITradeRepository, TradeRepository>();
+            
+            services.AddTransient<ITradeService, TradeService>();
 
             services.AddTransient<ISettlementRepository, SettlementRepository>();
 
@@ -37,6 +43,8 @@ namespace TodoApi
         {
             if (env.IsDevelopment())
             {
+                app.UseSwagger();
+                app.UseSwaggerUI();
                 app.UseDeveloperExceptionPage();
             }
 

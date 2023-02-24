@@ -14,6 +14,13 @@ namespace TodoApi.Controllers
             _settlementService = settlementService;
         }
 
+        /// <summary>
+        /// Returns list of records
+        /// </summary>
+        /// <param name="SettlementLocationID"></param>
+        /// <param name="StartDate"></param>
+        /// <param name="EndDate"></param>
+        /// <returns>List of Settlement.</returns>
         [HttpGet("api/ret_settlement_dates")]
         public IActionResult GetSettlementByDates([FromQuery] SettlementQuery query)
         {
@@ -21,9 +28,14 @@ namespace TodoApi.Controllers
 
             if (!result.Success) return BadRequest(result);
 
-            return Ok(result);
+            return Ok(result.Result);
         }
 
+        /// <summary>
+        /// Returns aggregate Settlement list grouped by year
+        /// </summary>
+        /// <param name="settlementLocationName"></param>
+        /// <returns>List of Settlement.</returns
         [HttpGet("api/agg_monthly")]
         public IActionResult GetSettlementAggMonthly([FromQuery] string settlementLocationName)
         {
@@ -31,7 +43,7 @@ namespace TodoApi.Controllers
 
             if (!result.Success) return BadRequest(result);
 
-            return Ok(result);
+            return Ok(result.Result);
         }
     }
 }

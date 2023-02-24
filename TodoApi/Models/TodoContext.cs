@@ -17,20 +17,22 @@ namespace TodoApi.Models
 
         public DbSet<Settlement> Settlements { get; set; }
 
+        public DbSet<Trade> Trades { get; set; }
+        
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Settlement>()
             .HasKey(s => new { s.SettlementLocationID, s.DateOfService });
 
-            foreach (var settlement in GetSettlements())
+            foreach (var settlement in LoadSettlements())
             {
                 modelBuilder.Entity<Settlement>().HasData(settlement);
             }
         }
         #endregion
 
-        private List<Settlement> GetSettlements()
+        private List<Settlement> LoadSettlements()
         {
             var settlements = new List<Settlement>();
 
